@@ -10,20 +10,6 @@ const rl = readline.createInterface({
 const url = process.argv[2];
 const localPath = process.argv[3];
 
-if (fs.existsSync(localPath)) {
-  rl.question("File path already exists! Would you like to overide? Y or N  ", (answer) => {
-    if (answer === 'Y') {
-      makeRequest();
-    } else {
-      console.log("Try again with new file path.");
-      process.exit();
-    }
-  });
-} else if (!localPath || !url) {
-  console.log("Two parameters are required. \nnode fetcher.js <url> <file-path>");
-  process.exit();
-}
-
 const makeRequest = () => {
   request(url, (error, response, body) => {
     if (error) {
@@ -40,3 +26,20 @@ const makeRequest = () => {
     });
   });
 };
+
+if (fs.existsSync(localPath)) {
+  rl.question("File path already exists! Would you like to overide? Y or N  ", (answer) => {
+    if (answer === 'Y') {
+      makeRequest();
+    } else {
+      console.log("Try again with new file path.");
+      process.exit();
+    }
+  });
+} else if (!localPath || !url) {
+  console.log("Two parameters are required. \nnode fetcher.js <url> <file-path>");
+  process.exit();
+} else {
+  makeRequest();
+}
+
