@@ -16,14 +16,18 @@ const makeRequest = () => {
       console.log('error:', error); // Print the error if one occurred
       console.log('statusCode:', response && response.statusCode); // Print the response status code if an error was received
     }
-
-    fs.writeFile(localPath, body, err => {
-      if (err) {
-        console.error(err);
-      }
-      console.log(`Downloaded and saved ${body.length} bytes to ${localPath}`);
+    if (response.statusCode === 200) {
+      fs.writeFile(localPath, body, err => {
+        if (err) {
+          console.error(err);
+        }
+        console.log(`Downloaded and saved ${body.length} bytes to ${localPath}`);
+        process.exit();
+      });
+    } else {
+      console.log("Invalid url. Try again with a valid url.");
       process.exit();
-    });
+    }
   });
 };
 
@@ -42,4 +46,3 @@ if (fs.existsSync(localPath)) {
 } else {
   makeRequest();
 }
-
