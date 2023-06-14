@@ -19,6 +19,9 @@ if (fs.existsSync(localPath)) {
       process.exit();
     }
   });
+} else if (!localPath || !url) {
+  console.log("Two parameters are required. \nnode fetcher.js <url> <file-path>");
+  process.exit();
 }
 
 const makeRequest = () => {
